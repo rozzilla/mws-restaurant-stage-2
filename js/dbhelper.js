@@ -1,8 +1,10 @@
+const MAIN_DB = "dbRestaurant";
+const MAIN_OBJECT_STORE = "osRestaurant";
+
 /**
  * Common database helper functions.
  */
 class DBHelper {
-
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
@@ -16,18 +18,43 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const restaurants = JSON.parse(xhr.responseText);
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    openIDB().then(function(db) {
+      var tx = db.transaction(MAIN_OBJECT_STORE, 'readonly');
+      var store = tx.objectStore(MAIN_OBJECT_STORE);
+
+      store.getAll().then(idbData => {
+        if(idbData && idbData.length > 0) {
+          // JSON data are already present in IDB
+          callback(null, idbData);
+        } else {
+          // JSON data are not put in IDB, so I do it now
+          let xhr = new XMLHttpRequest();
+          xhr.open('GET', DBHelper.DATABASE_URL);
+          xhr.onload = () => {
+            if (xhr.status === 200) { // Got a success response from server!
+              var tx = db.transaction(MAIN_OBJECT_STORE, 'readwrite');
+              var store = tx.objectStore(MAIN_OBJECT_STORE);
+              const jsonData = JSON.parse(xhr.responseText);
+
+              jsonData.forEach(jsonElement => {
+                // Put every data of the JSON in the IDB
+                store.put(jsonElement);
+              });
+
+              store.getAll().then(idbData => {
+                // Get the data from the IDB now
+                callback(null, idbData);
+              })
+
+            } else { // Oops!. Got an error from server.
+              const error = (`Request failed. Returned status of ${xhr.status}`);
+              callback(error, null);
+            }
+          };
+          xhr.send();
+        }
+      });
+    });
   }
 
   /**
