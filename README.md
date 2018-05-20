@@ -61,3 +61,10 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 
 If you find a bug in the source code or a mistake in the documentation, you can help us by
 submitting an issue to our [Waffle Dashboard](https://waffle.io/udacity/mwnd-issues). Even better you can submit a Pull Request with a fix :)
+
+
+## Licence
+
+Each file included in this repository is licenced under the Apache License 2.0.
+
+[Visit the official website of the licence](http://www.apache.org/licenses/) to know more about it.
