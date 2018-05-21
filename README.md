@@ -1,5 +1,12 @@
-# Local Development API Server
-## Usage
+# Mobile Web Specialist Certification Course
+## Project Overview
+For the Restaurant Reviews projects, you will incrementally convert a static webpage to a mobile-ready web application. In Stage Two, you will take the responsive, accessible design you built in Stage One and connect it to an external server. You’ll begin by using asynchronous JavaScript to request JSON data from the server. You’ll store data received from the server in an offline database using IndexedDB, which will create an app shell architecture. Finally, you’ll work to optimize your site to meet performance benchmarks, which you’ll test using Lighthouse.
+
+## Specification
+You will be provided code for a Node development server and a README for getting the server up and running locally on your computer. The README will also contain the API you will need to make JSON requests to the server. Once you have the server up, you will begin the work of improving your Stage One project code.
+The core functionality of the application will not change for this stage. Only the source of the data will change. You will use the fetch() API to make requests to the server to populate the content of your Restaurant Reviews app.
+
+## Usage of the local Development API Server
 #### Get Restaurants
 ```
 curl "http://localhost:1337/restaurants"
@@ -48,7 +55,7 @@ debug: Environment : development
 debug: Port        : 1337
 
 
-### What do I do from here?
+### And now, what do I do from here?
 
 1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer.
 
